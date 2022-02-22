@@ -8,6 +8,7 @@ const TODOS = [
 ]
 const TodoApp = () => {
   const [todos, setTodos] = useState(TODOS);
+  const [todoTitle, setTodoTitle] = useState("");
   const remove = (todo) => {
     const newTodos = todos.filter(t => t !== todo);
     setTodos(newTodos);
@@ -15,11 +16,22 @@ const TodoApp = () => {
   const add = () => {
     const randomId = (new Date()).getTime() + "";
     const newTodo = {
-      title: "New Todo", done: false, _id: randomId
+      title: todoTitle, done: false, _id: randomId
     }
-    const newTodos = [...todos, newTodo];
-    setTodos(newTodos);
+    setTodos([...todos, newTodo]);
   }
+  const update = (updatedTodo) => {
+    const newTodos = todos.map(
+      todo => {
+        if (todo._id === updatedTodo._id) {
+          return updatedTodo
+        } else {
+          return todo;
+        }
+      }
+    );
+    setTodos(newTodos);
+  };
   return(
     <div>
       <h1>Todo App</h1>
@@ -27,14 +39,19 @@ const TodoApp = () => {
         {
           todos.map(todo =>
             <TodoItem key={todo._id}
+                      update={update}
                       remove={remove}
                       todo={todo}/>
           )
         }
       </ul>
+      <input placeholder="Buy milk"
+             onChange={(e) => setTodoTitle(e.target.value)}
+             value={todoTitle}
+             className="form-control d-inline w-75"/>
       <button
         onClick={add}
-        className="btn btn-sm btn-success">
+        className="btn btn-success float-end">
         Add
       </button>
     </div>
