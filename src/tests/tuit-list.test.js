@@ -1,27 +1,54 @@
-import {Tuits} from "../components/tuits";
+import Tuits from "../components/tuits";
 import {screen, render} from "@testing-library/react";
 import {HashRouter} from "react-router-dom";
-import {findAllTuits} from "../services/tuits-service";
+import {findAllTuits, createTuit} from "../services/tuits-service";
+import {createUser} from "../services/users-service";
 import axios from "axios";
 
-jest.mock('axios');
-
-const MOCKED_USERS = [
-  "alice", "bob", "charlie"
-];
+const ripley = {
+  username: 'ellenripley',
+  password: 'lv426',
+  email: 'ellenripley@aliens.com'
+};
 
 const MOCKED_TUITS = [
-  "alice's tuit", "bob's tuit", "charlie's tuit"
-];
+  {
+      tuit: "alice's tuit",
+  },
+  {
+      tuit: "bob's  tuit",
+  },
+  {
+      tuit: "charlie's tuit",
+  },
+  
+]
 
 test('tuit list renders static tuit array', () => {
-  // TODO: implement this
+  render(
+    <HashRouter>
+      <Tuits tuits={MOCKED_TUITS}/>
+    </HashRouter>);
+  const linkElement = screen.getByText(/alice's tuit/i);
+  expect(linkElement).toBeInTheDocument();
 });
 
 test('tuit list renders async', async () => {
-  // TODO: implement this
-})
+  
+  const newUser = await createUser(ripley)
+  MOCKED_TUITS.map(tuit =>
+    createTuit(
+      newUser._id,
+      tuit
+    )
+  )
+  const tuits = await findAllTuits();
 
-test('tuit list renders mocked', async () => {
-  // TODO: implement this
+  render(
+    <HashRouter>
+      <Tuits tuits={tuits}/>
+    </HashRouter>);
+  const linkElement = screen.getByText(/alice's tuit/i);
+  expect(linkElement).toBeInTheDocument();
 });
+
