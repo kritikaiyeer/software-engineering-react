@@ -90,12 +90,14 @@ describe('can retrieve a tuit by their primary key with REST API', () => {
   // setup test before running test
   beforeAll(() => {
     // remove any/all tuits to make sure we create it in the test
+    const satt = deleteTuitByContent(tuitMock.tuit);
     return deleteUsersByUsername(ripley.username);
   })
 
   // clean up after test runs
   afterAll(() => {
     // remove any data we created
+    const satt = deleteTuitByContent(tuitMock.tuit);
     return  deleteUsersByUsername(ripley.username);
   })
   test('can retrieve tuit from REST API by primary key', async () => {
@@ -135,12 +137,18 @@ describe('can retrieve a tuit by their primary key with REST API', () => {
     ]
   
     beforeAll(async () => {
-      return deleteUsersByUsername(ripley.username);
+      tuitMocked.forEach(tuit => {
+        deleteTuitByContent(tuit);
+      })
+      deleteUsersByUsername(ripley.username);
     })
   
     afterAll(() => {
       // remove any data we created
-      return deleteUsersByUsername(ripley.username);
+      tuitMocked.forEach(tuit => {
+        deleteTuitByContent(tuit);
+      })
+      deleteUsersByUsername(ripley.username);
     })
   
     test('can retrieve all tuits with REST API', async () => {
@@ -153,7 +161,7 @@ describe('can retrieve a tuit by their primary key with REST API', () => {
       )
   
       const newTuits = await findAllTuits();
-      // there should be a minimum number of users
+      // there should be a minimum number of tuits
       expect(newTuits.length).toBeGreaterThanOrEqual(tuitMocked.length);
   
       // let's check each tuit we inserted
