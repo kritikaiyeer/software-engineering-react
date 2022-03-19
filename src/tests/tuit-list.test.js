@@ -44,6 +44,7 @@ test('tuit list renders async', async () => {
   )
   const tuits = await findAllTuits();
 
+
   render(
     <HashRouter>
       <Tuits tuits={tuits}/>

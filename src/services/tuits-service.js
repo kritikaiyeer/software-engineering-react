@@ -1,10 +1,9 @@
 import axios from "axios";
 
 // const BASE_URL = "https://cs5500-01-sp22.herokuapp.com";
-const BASE_URL = "http://localhost:4000";
 
-const TUITS_API = 'http://localhost:4000/api/tuits';
-const USERS_API = 'http://localhost:4000/api/users';
+const TUITS_API = 'https://tuiterfsedev.herokuapp.com/api/tuits';
+const USERS_API = 'https://tuiterfsedev.herokuapp.com/api/users';
 
 // const api = axios.create({
 //     withCredentials: true

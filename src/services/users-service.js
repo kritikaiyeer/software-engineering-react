@@ -1,8 +1,7 @@
 import axios from "axios";
- const BASE_URL = "http://localhost:4000";
-//"http://localhost:4000";
-//const BASE_URL = process.env.REACT_APP_BASE_URL;
-const USERS_API = `${BASE_URL}/api/users`;
+ const BASE_URL = "https://tuiterfsedev.herokuapp.com/";
+
+const USERS_API = 'https://tuiterfsedev.herokuapp.com/api/users';
 
 export const createUser = (user) =>
   axios.post(`${USERS_API}`, user)

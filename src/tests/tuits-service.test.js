@@ -137,16 +137,16 @@ describe('can retrieve a tuit by their primary key with REST API', () => {
     ]
   
     beforeAll(async () => {
-      tuitMocked.forEach(tuit => {
-        deleteTuitByContent(tuit);
+      tuitMocked.forEach(tuiter => {
+        deleteTuitByContent(tuiter.tuit);
       })
-      deleteUsersByUsername(ripley.username);
+      return deleteUsersByUsername(ripley.username);
     })
   
     afterAll(() => {
       // remove any data we created
-      tuitMocked.forEach(tuit => {
-        deleteTuitByContent(tuit);
+      tuitMocked.forEach(tuiter => {
+        deleteTuitByContent(tuiter.tuit);
       })
       deleteUsersByUsername(ripley.username);
     })
@@ -162,16 +162,16 @@ describe('can retrieve a tuit by their primary key with REST API', () => {
   
       const newTuits = await findAllTuits();
       // there should be a minimum number of tuits
-      expect(newTuits.length).toBeGreaterThanOrEqual(tuitMocked.length);
+      expect(newTuits.length).toBeGreaterThanOrEqual(newTuits.length);
   
       // let's check each tuit we inserted
-      const tuitsWeInserted = tuitMocked.filter(
+      const tuitsWeInserted = newTuits.filter(
         tuit => tuitMocked.indexOf(tuit.tuit) >= 0);
   
-      tuitsWeInserted.forEach(tuitt => {
-        const tuit = tuitMocked.find(tuit => tuit === tuitt.tuit);
-        expect(tuitt.tuit).toEqual(tuit);
-        expect(tuitt.postedBy._id).toEqual(newUser._id);
+      tuitsWeInserted.forEach(tuiter => {
+        const tuit = newTuits.find(tuit => tuit === tuiter.tuit);
+        expect(tuiter.tuit).toEqual(tuit);
+        expect(tuiter.postedBy._id).toEqual(newUser._id);
       });
     })
   });
