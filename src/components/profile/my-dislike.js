@@ -10,7 +10,7 @@ const MyDislikes = () => {
     useEffect(findTuitsIDislike, []);
     
     return(
-        <div>
+        <div className="dislikescreen">
             <Tuits tuits={dislikedTuits} refreshTuits={findTuitsIDislike}/>
         </div>
     );
